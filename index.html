@@ -159,15 +159,69 @@
     color:var(--slate);
   }
   .brand strong{ color:var(--navy); }
+  .header{
+  padding-right:115px;
+  min-height:115px;
+}
+
+.headshot-logo{
+  position:absolute;
+  top:12px;
+  right:14px;
+  width:92px;
+  height:92px;
+  object-fit:contain;
+  border-radius:50%;
+}
+
+.brokerage-branding{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid var(--line);
+  text-align:center;
+}
+
+.brokerage-logo{
+  display:block;
+  width:190px;
+  max-width:70%;
+  height:auto;
+  margin:0 auto;
+}
+
+@media (max-width:420px){
+  .header{
+    padding-right:100px;
+  }
+
+  .headshot-logo{
+    width:78px;
+    height:78px;
+  }
+
+  .header h1{
+    font-size:20px;
+  }
+
+  .brokerage-logo{
+    width:165px;
+  }
+}
 </style>
 </head>
 <body>
 
 <div class="card">
   <div class="header">
-    <div class="eyebrow">Free Estimate</div>
-    <h1>What will you actually walk away with?</h1>
-  </div>
+  <div class="eyebrow">Free Estimate</div>
+  <h1>What will you actually walk away with?</h1>
+
+  <img
+    src="aaron-headshot.png"
+    alt="Aaron Hillegass, Howard Hanna Bardell Realty"
+    class="headshot-logo"
+  >
+</div>
 
   <div class="body">
     <div class="field">
@@ -220,8 +274,15 @@
     <div class="footnote">
       This is a ballpark estimate for planning purposes only, not a settlement statement. Actual proceeds depend on your payoff amount, prorated taxes, and final closing costs.
     </div>
-    <div class="brand"><strong>Aaron Hillegass</strong> · Howard Hanna Bardell Realty</div>
-  </div>
+    <div class="brand"><strong>Aaron Hillegass</strong>Howard Hanna Bardell Realty</div>
+
+<div class="brokerage-branding">
+  <img
+    src="hhbr-logo.png"
+    alt="Howard Hanna Bardell Realty"
+    class="brokerage-logo"
+  >
+</div>
 </div>
 
 <script>

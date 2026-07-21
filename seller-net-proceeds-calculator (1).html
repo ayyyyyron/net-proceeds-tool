@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller Net Proceeds Estimator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+
+  :root{
+    --navy:#1B2A41;
+    --navy-soft:#2C3E58;
+    --gold:#B8872F;
+    --paper:#F7F5F0;
+    --ink:#1B2A41;
+    --slate:#5B6472;
+    --green:#2F6F4E;
+    --line:#DDD8CC;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    padding:24px 12px;
+  }
+  .card{
+    max-width:480px;
+    margin:0 auto;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:0 1px 3px rgba(27,42,65,0.08);
+  }
+  .header{
+    background:var(--navy);
+    color:#fff;
+    padding:22px 24px 20px;
+    position:relative;
+  }
+  .header .eyebrow{
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--gold);
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .header h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:22px;
+    margin:0;
+    line-height:1.25;
+  }
+  .body{ padding:22px 24px 24px; }
+
+  .field{ margin-bottom:16px; }
+  .field label{
+    display:block;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--slate);
+    margin-bottom:5px;
+  }
+  .inputwrap{
+    position:relative;
+    display:flex;
+    align-items:center;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:var(--paper);
+    transition:border-color .15s;
+  }
+  .inputwrap:focus-within{
+    border-color:var(--gold);
+  }
+  .inputwrap .prefix, .inputwrap .suffix{
+    padding:0 10px;
+    color:var(--slate);
+    font-size:14px;
+    font-weight:500;
+    user-select:none;
+  }
+  .inputwrap input{
+    border:none;
+    background:transparent;
+    outline:none;
+    padding:11px 4px;
+    font-size:15px;
+    font-weight:600;
+    color:var(--ink);
+    width:100%;
+    font-family:'Inter',sans-serif;
+  }
+  .inputwrap input::placeholder{ color:#B7BEC7; font-weight:400; }
+
+  .row-two{ display:flex; gap:12px; }
+  .row-two .field{ flex:1; }
+
+  .divider{
+    border:none;
+    border-top:1px dashed var(--line);
+    margin:20px 0 18px;
+  }
+
+  .statement{
+    margin-bottom:4px;
+  }
+  .statement .label{ color:var(--slate); }
+  .line{
+    display:flex;
+    justify-content:space-between;
+    font-size:13.5px;
+    padding:5px 0;
+    color:var(--navy-soft);
+  }
+  .line .amt{ font-variant-numeric:tabular-nums; font-weight:500; }
+  .line.subtract .amt::before{ content:"– "; color:var(--slate); }
+
+  .result{
+    margin-top:16px;
+    background:var(--navy);
+    border-radius:3px;
+    padding:18px 20px;
+    text-align:center;
+  }
+  .result .cap{
+    font-size:10.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#B9C2D0;
+    font-weight:600;
+    margin-bottom:6px;
+  }
+  .result .num{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:36px;
+    color:#fff;
+    letter-spacing:-0.01em;
+    font-variant-numeric:tabular-nums;
+  }
+  .result .num.negative{ color:#E9A99A; }
+
+  .footnote{
+    margin-top:16px;
+    font-size:11.5px;
+    line-height:1.5;
+    color:var(--slate);
+    text-align:center;
+  }
+  .brand{
+    margin-top:2px;
+    font-size:11.5px;
+    text-align:center;
+    color:var(--slate);
+  }
+  .brand strong{ color:var(--navy); }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <div class="eyebrow">Free Estimate</div>
+    <h1>What will you actually walk away with?</h1>
+  </div>
+
+  <div class="body">
+    <div class="field">
+      <label for="price">Estimated Sale Price</label>
+      <div class="inputwrap">
+        <span class="prefix">$</span>
+        <input type="text" inputmode="numeric" id="price" placeholder="285,000">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="payoff">Remaining Mortgage / Lien Payoff</label>
+      <div class="inputwrap">
+        <span class="prefix">$</span>
+        <input type="text" inputmode="numeric" id="payoff" placeholder="140,000">
+      </div>
+    </div>
+
+    <div class="row-two">
+      <div class="field">
+        <label for="commission">Commission</label>
+        <div class="inputwrap">
+          <input type="text" inputmode="decimal" id="commission" placeholder="6">
+          <span class="suffix">%</span>
+        </div>
+      </div>
+      <div class="field">
+        <label for="closing">Transfer Tax</label>
+        <div class="inputwrap">
+          <input type="text" inputmode="decimal" id="closing" placeholder="1">
+          <span class="suffix">%</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <div class="statement">
+      <div class="line"><span>Sale price</span><span class="amt" id="out-price">$0</span></div>
+      <div class="line subtract"><span>Mortgage payoff</span><span class="amt" id="out-payoff">$0</span></div>
+      <div class="line subtract"><span>Commission</span><span class="amt" id="out-commission">$0</span></div>
+      <div class="line subtract"><span>Transfer tax</span><span class="amt" id="out-closing">$0</span></div>
+    </div>
+
+    <div class="result">
+      <div class="cap">Estimated Net Proceeds</div>
+      <div class="num" id="out-net">$0</div>
+    </div>
+
+    <div class="footnote">
+      This is a ballpark estimate for planning purposes only — not a settlement statement. Actual proceeds depend on your payoff amount, prorated taxes, and final closing costs.
+    </div>
+    <div class="brand"><strong>Aaron [Last Name]</strong> · Howard Hanna Bardell Realty</div>
+  </div>
+</div>
+
+<script>
+  const ids = ['price','payoff','commission','closing'];
+  const inputs = {};
+  ids.forEach(id => inputs[id] = document.getElementById(id));
+
+  function parseNum(v){
+    const n = parseFloat(String(v).replace(/[^0-9.]/g,''));
+    return isNaN(n) ? 0 : n;
+  }
+  function fmtMoney(n){
+    const rounded = Math.round(n);
+    return (rounded < 0 ? '-$' : '$') + Math.abs(rounded).toLocaleString('en-US');
+  }
+  function formatFieldOnBlur(el){
+    const n = parseNum(el.value);
+    if(n > 0) el.value = n.toLocaleString('en-US');
+  }
+
+  function calculate(){
+    const price = parseNum(inputs.price.value);
+    const payoff = parseNum(inputs.payoff.value);
+    const commissionPct = parseNum(inputs.commission.value);
+    const closingPct = parseNum(inputs.closing.value);
+
+    const commission = price * (commissionPct/100);
+    const closing = price * (closingPct/100);
+    const net = price - payoff - commission - closing;
+
+    document.getElementById('out-price').textContent = fmtMoney(price);
+    document.getElementById('out-payoff').textContent = fmtMoney(payoff);
+    document.getElementById('out-commission').textContent = fmtMoney(commission);
+    document.getElementById('out-closing').textContent = fmtMoney(closing);
+
+    const netEl = document.getElementById('out-net');
+    netEl.textContent = fmtMoney(net);
+    netEl.classList.toggle('negative', net < 0);
+  }
+
+  ids.forEach(id => {
+    inputs[id].addEventListener('input', calculate);
+    inputs[id].addEventListener('blur', () => {
+      if(id !== 'commission' && id !== 'closing') formatFieldOnBlur(inputs[id]);
+      calculate();
+    });
+  });
+
+  // Defaults so it's never a blank/zero screen on load
+  inputs.commission.value = '6';
+  inputs.closing.value = '1';
+  calculate();
+</script>
+
+</body>
+</html>
